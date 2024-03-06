@@ -19,11 +19,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "couchbase-operator.fullname" -}}
+{{- if .Values.couchbaseOperator.fullnameOverride -}}
+{{- .Values.couchbaseOperator.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
 {{- printf "%s-%s" .Release.Name .Values.couchbaseOperator.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 {{- end -}}
 
 {{- define "admission-controller.fullname" -}}
+{{- if .Values.admissionController.fullnameOverride -}}
+{{- .Values.admissionController.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
 {{- printf "%s-%s" .Release.Name .Values.admissionController.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 {{- end -}}
 
 {{/*
@@ -110,7 +118,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "couchbase-cluster.fullname" -}}
+{{- if .Values.cluster.fullnameOverride -}}
+{{- .Values.cluster.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
 {{- printf "%s-%s" .Release.Name (include "couchbase-cluster.name" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 {{- end -}}
 
 
@@ -202,7 +214,7 @@ Apply generated TLS if enabled
   {{- else -}}
     {{- if not $tls -}}
       {{/* prepare native structre if not provided */}}
-      {{- $rootCAs := (list (include "couchbase-cluster.tls.ca-secret" .)) -}} 
+      {{- $rootCAs := (list (include "couchbase-cluster.tls.ca-secret" .)) -}}
       {{- $native := (dict "rootCAs" $rootCAs "secretSource" dict) -}}
       {{- $tls := set $networking "tls" $native -}}
     {{- end -}}
@@ -273,7 +285,7 @@ Determine if tls is enabled for cluster
 {{- end -}}
 
 {{/*
-Determine if tls legacy mode is enabled.  Legacy TLS involves use of static secrets. 
+Determine if tls legacy mode is enabled.  Legacy TLS involves use of static secrets.
 */}}
 {{- define  "couchbase-cluster.tls.is-legacy" -}}
 {{- if .Values.tls.legacy -}}

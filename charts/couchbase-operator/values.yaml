@@ -17,6 +17,8 @@ install:
 couchbaseOperator:
   # -- Name of the couchbase operator Deployment
   name: "couchbase-operator"
+  # -- Allows the full name of the couchbase operator to be overridden.
+  fullnameOverride: ""
   # -- Image specifies repository and tag of the Couchbase Operator container.
   image:
     repository: couchbase/operator
@@ -50,6 +52,8 @@ couchbaseOperator:
 # name is derived from chart
 admissionController:
   name: "couchbase-admission-controller"
+  # -- Allows the full name of the couchbase admission controller to be overridden.
+  fullnameOverride: ""
   # -- Image specifies repository and tag of the Couchbase Admission container.
   image:
     repository: couchbase/admission-controller
@@ -1029,6 +1033,8 @@ cluster:
   monitoring: {}
   # -- Name of the cluster, defaults to name of chart release
   name:
+  # -- Allows the full name of the cluster to be overridden.
+  fullnameOverride: ""
   # -- Networking defines Couchbase cluster networking options such as network
   # topology, TLS and DDNS settings.
   networking:
